@@ -1,14 +1,22 @@
-package zhuaimao
+package main
 
 import (
 	"errors"
+	"fmt"
 	"net"
+	"os"
+	"os/signal"
+	"sync"
 	"sync/atomic"
+	"syscall"
 	"time"
 )
 
 var (
 	defaultWaitDuration = time.Duration(5 * time.Second)
+
+	atExitHooks  = make([]func() error, 0)
+	exitHookLock = sync.Mutex{}
 )
 
 type ListenerWrap struct {
@@ -99,4 +107,35 @@ func GracefulListenEx(address string, maxWait time.Duration) (net.Listener, erro
 
 func GracefullListen(address string) (net.Listener, error) {
 	return GracefulListenEx(address, defaultWaitDuration)
+}
+
+func RegisteExitHook(fn func() error) {
+	exitHookLock.Lock()
+	atExitHooks = append(atExitHooks, fn)
+	exitHookLock.Unlock()
+}
+
+func signalAction(ln net.Listener) {
+	sc := make(chan os.Signal)
+	signal.Notify(sc)
+
+		for s := range sc {
+			switch s {
+			case syscall.SIGHUP, syscall.SIGINT, syscall.SIGTERM, syscall.SIGQUIT:
+				code := 0
+				for _, fn := range atExitHooks {
+					if e := fn(); e != nil {
+						code += 1
+					}
+				}
+
+				if e := ln.Close(); e != nil {
+					code += 1
+					fmt.Fprintf(os.Stderr, "close listener error: %s\n", e.Error())
+				}
+
+				fmt.Println("exit code:", code)
+				os.Exit(code)
+			}
+		}
 }
