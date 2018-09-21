@@ -1,9 +1,9 @@
 package main
 
 import (
-	routing "github.com/qiangxue/fasthttp-routing"
 	"github.com/valyala/fasthttp"
 	"sync"
+	"zhuaimao/handler"
 )
 
 func main() {
@@ -21,14 +21,7 @@ func main() {
 		signalAction(listener)
 	}()
 
-	router := routing.New()
-
-	router.Get("/data", func(ctx *routing.Context) error {
-		ctx.WriteString("ooooooooookkkkkkkkkk")
-		return nil
-	})
-
-	fasthttp.Serve(listener, router.HandleRequest)
+	fasthttp.Serve(listener, handler.HandleRequest)
 
 	waitGrp.Wait()
 }
