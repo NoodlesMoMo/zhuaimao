@@ -21,7 +21,7 @@ var (
 )
 
 func init() {
-	RegisteExitHook(func() error{
+	RegisteExitHook(func() error {
 		models.DestroyDBInstance()
 		return nil
 	})

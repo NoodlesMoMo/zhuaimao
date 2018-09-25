@@ -13,9 +13,10 @@ func init() {
 type User struct {
 	gorm.Model
 
-	Name      string `gorm:"type:varchar(64);index:idx_name"`
-	Level     string `gorm:"type:varchar(64)"`
-	LevelName string `gorm:"type:varchar(64)"`
+	Name      string `gorm:"type:varchar(64);index:idx_name;not null;default:''"`
+	Password  string `gorm:"type:varchar(84);not null;default:''"`
+	Level     string `gorm:"type:varchar(64); not null; default:''"`
+	LevelName string `gorm:"type:varchar(64); not null; default:''"`
 	Avatar    string `gorm:"type:varchar(255)"`
 	Token     string `gorm:"size:64"`
 
@@ -27,6 +28,6 @@ type Permission struct {
 	Path   []string
 }
 
-func (u *User)TableName() string {
+func (u *User) TableName() string {
 	return `user_t`
 }

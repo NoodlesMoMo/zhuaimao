@@ -1,10 +1,11 @@
 package handler
 
 import (
-	"github.com/valyala/fasthttp"
-	"github.com/qiangxue/fasthttp-routing"
 	"os"
 	"path"
+
+	"github.com/qiangxue/fasthttp-routing"
+	"github.com/valyala/fasthttp"
 )
 
 var (
