@@ -3,9 +3,10 @@ package models
 import (
 	"sync"
 
+	"fmt"
+
 	"github.com/go-sql-driver/mysql"
 	"github.com/jinzhu/gorm"
-	"fmt"
 )
 
 var (
