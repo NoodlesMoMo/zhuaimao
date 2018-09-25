@@ -6,10 +6,13 @@ import (
 	_ "github.com/jinzhu/gorm/dialects/mysql"
 )
 
+func init() {
+	GetDBInstance().AutoMigrate(&User{})
+}
+
 type User struct {
 	gorm.Model
 
-	ID        string `gorm:"primary_key"`
 	Name      string `gorm:"type:varchar(64);index:idx_name"`
 	Level     string `gorm:"type:varchar(64)"`
 	LevelName string `gorm:"type:varchar(64)"`
@@ -22,4 +25,8 @@ type User struct {
 type Permission struct {
 	Method []string
 	Path   []string
+}
+
+func (u *User)TableName() string {
+	return `user_t`
 }

@@ -10,6 +10,7 @@ import (
 	"sync/atomic"
 	"syscall"
 	"time"
+	"zhuaimao/models"
 )
 
 var (
@@ -18,6 +19,13 @@ var (
 	atExitHooks  = make([]func() error, 0)
 	exitHookLock = sync.Mutex{}
 )
+
+func init() {
+	RegisteExitHook(func() error{
+		models.DestroyDBInstance()
+		return nil
+	})
+}
 
 type ListenerWrap struct {
 	listener        net.Listener
@@ -105,7 +113,7 @@ func GracefulListenEx(address string, maxWait time.Duration) (net.Listener, erro
 	}, nil
 }
 
-func GracefullListen(address string) (net.Listener, error) {
+func GracefulListen(address string) (net.Listener, error) {
 	return GracefulListenEx(address, defaultWaitDuration)
 }
 
@@ -119,23 +127,23 @@ func signalAction(ln net.Listener) {
 	sc := make(chan os.Signal)
 	signal.Notify(sc)
 
-		for s := range sc {
-			switch s {
-			case syscall.SIGHUP, syscall.SIGINT, syscall.SIGTERM, syscall.SIGQUIT:
-				code := 0
-				for _, fn := range atExitHooks {
-					if e := fn(); e != nil {
-						code += 1
-					}
-				}
-
-				if e := ln.Close(); e != nil {
+	for s := range sc {
+		switch s {
+		case syscall.SIGHUP, syscall.SIGINT, syscall.SIGTERM, syscall.SIGQUIT:
+			code := 0
+			for _, fn := range atExitHooks {
+				if e := fn(); e != nil {
 					code += 1
-					fmt.Fprintf(os.Stderr, "close listener error: %s\n", e.Error())
 				}
-
-				fmt.Println("exit code:", code)
-				os.Exit(code)
 			}
+
+			if e := ln.Close(); e != nil {
+				code += 1
+				fmt.Fprintf(os.Stderr, "close listener error: %s\n", e.Error())
+			}
+
+			fmt.Println(">>>>> exit code:", code)
+			os.Exit(code)
 		}
+	}
 }

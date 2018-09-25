@@ -5,6 +5,7 @@ import (
 
 	"github.com/go-sql-driver/mysql"
 	"github.com/jinzhu/gorm"
+	"fmt"
 )
 
 var (
@@ -14,10 +15,10 @@ var (
 
 var (
 	dbConfig = mysql.Config{
-		Addr:                 "localhost",
+		Addr:                 "localhost:3306",
 		User:                 "root",
 		Passwd:               "123",
-		DBName:               "sogou",
+		DBName:               "ime_admin",
 		Net:                  "tcp4",
 		AllowNativePasswords: true,
 		Params: map[string]string{
@@ -47,11 +48,12 @@ func GetDBInstance() *gorm.DB {
 	return _db_instance
 }
 
-func DestryDBInstance() {
+func DestroyDBInstance() {
 	if _db_instance != nil {
 		_db_del_once.Do(func() {
 			_db_instance.Close()
 			_db_instance = nil
+			fmt.Println(">>>> destroy database instance.")
 		})
 	}
 }

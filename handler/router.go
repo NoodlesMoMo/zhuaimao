@@ -14,10 +14,13 @@ func HandleRequest(ctx *fasthttp.RequestCtx){
 }
 
 func init() {
+	/*
 	authRouter := router.Group("/")
 	authRouter.Use(AuthMiddleHandler)
+	*/
 
-	noAuthRouter := router.Group("/")
+	noAuthRouter := router.Group("")
 	noAuthRouter.To("GET,POS", "/login", LoginHandler)
+	noAuthRouter.Get("/static/*", StaticHandler)
 }
 
