@@ -20,13 +20,15 @@ type User struct {
 	Avatar    string `gorm:"type:varchar(255)"`
 	Token     string `gorm:"size:64"`
 
-	Permissions []Permission `gorm:"-"`
+	//Permissions []Permission `gorm:"-"`
 }
 
+/*
 type Permission struct {
 	Method []string
 	Path   []string
 }
+*/
 
 func (u *User) TableName() string {
 	return `user_t`
