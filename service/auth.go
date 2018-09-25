@@ -14,9 +14,9 @@ const (
 )
 
 func CheckUser(username, password []byte) (models.User, bool) {
-	user, ok := models.User{}, false
+	ok := false
 
-	err := models.GetDBInstance().Table(`user_t`).First(&user, "name=?", username).Error
+	user, err := models.GetUserByName(string(username))
 	if err != nil {
 		return user, false
 	}
@@ -26,6 +26,21 @@ func CheckUser(username, password []byte) (models.User, bool) {
 	}
 
 	return user, ok
+}
+
+func CheckAuthenticate(userId uint) bool {
+	ok := false
+	_, err := models.GetUserById(userId)
+
+	if err == nil {
+		ok = true
+	}
+
+	return ok
+}
+
+func CheckPermission(userId uint) bool {
+	return false
 }
 
 func ComparePassword(hash, password []byte) bool {

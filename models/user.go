@@ -18,9 +18,27 @@ type User struct {
 	Level     string `gorm:"type:varchar(64); not null; default:''"`
 	LevelName string `gorm:"type:varchar(64); not null; default:''"`
 	Avatar    string `gorm:"type:varchar(255)"`
+	Email     string `gorm:"type:varchar(255); not null; default:''"`
 	Token     string `gorm:"size:64"`
 }
 
 func (u *User) TableName() string {
 	return `user_t`
+}
+
+func GetUserById(id uint) (User, error) {
+	user := User{}
+
+	err := GetDBInstance().First(&user, id).Error
+
+	return user, err
+}
+
+func GetUserByName(name string) (User, error) {
+	var err error
+	user := User{}
+
+	err = GetDBInstance().First(&user).Where(`name=?`, name).Error
+
+	return user, err
 }
