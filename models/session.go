@@ -16,13 +16,13 @@ func InitSession(ctx *routing.Context) *SessionHelper {
 	}
 }
 
-func (helper *SessionHelper) GetUserId(cookieSec string) (id string) {
+func (helper *SessionHelper) GetUserId(cookieSec string) (id uint) {
 	var ok bool
-	if id, ok = helper.ses.Get(cookieSec).(string); ok {
+	if id, ok = helper.ses.Get(cookieSec).(uint); ok {
 		return
 	}
 
-	return ""
+	return 0
 }
 
 func (helper *SessionHelper) Set(value interface{}) string {
