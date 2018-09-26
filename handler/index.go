@@ -1,11 +1,20 @@
 package handler
 
-import "github.com/qiangxue/fasthttp-routing"
+import (
+	"fmt"
+	"github.com/qiangxue/fasthttp-routing"
+	"github.com/valyala/fasthttp"
+)
+
+var (
+	indexFileHandler = fasthttp.FSHandler(rootDir("static/"), 1)
+)
 
 func IndexHandler(ctx *routing.Context) error {
-	ctx.SetContentType("text/html")
 
-	ctx.WriteString("<h1>Hello</h1>")
+	fmt.Println("path:", string(ctx.Request.RequestURI()))
+
+	indexFileHandler(ctx.RequestCtx)
 
 	return nil
 }

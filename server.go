@@ -14,7 +14,7 @@ import (
 )
 
 var (
-	defaultWaitDuration = time.Duration(5 * time.Second)
+	defaultWaitDuration = time.Duration(3 * time.Second)
 
 	atExitHooks  = make([]func() error, 0)
 	exitHookLock = sync.Mutex{}

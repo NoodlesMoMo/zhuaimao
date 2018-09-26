@@ -1,11 +1,10 @@
 package handler
 
 import (
-	"os"
-	"path"
-
 	"github.com/qiangxue/fasthttp-routing"
 	"github.com/valyala/fasthttp"
+	"os"
+	"path"
 )
 
 var (
@@ -17,8 +16,13 @@ func StaticHandler(ctx *routing.Context) error {
 	return nil
 }
 
-func rootDir() string {
+func rootDir(sep ...string) string {
 	pwd, _ := os.Getwd()
 
-	return path.Join(pwd, "")
+	pwds := []string{pwd}
+	for _, s := range sep {
+		pwds = append(pwds, s)
+	}
+
+	return path.Join(pwds...)
 }
