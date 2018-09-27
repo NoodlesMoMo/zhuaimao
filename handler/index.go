@@ -6,5 +6,7 @@ import (
 
 func IndexHandler(ctx *routing.Context) error {
 
-	return RenderTemplate(ctx, "index.html", nil)
+	data := "hello_templates"
+
+	return RenderTemplate(ctx, "index.html", data)
 }
