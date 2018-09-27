@@ -19,7 +19,8 @@ func init() {
 	authRouter.Get("/", IndexHandler)
 
 	noAuthRouter := router.Group("")
-	noAuthRouter.Post("/login", LoginHandler)
+	noAuthRouter.Get("/login", LoginHandler)
+	noAuthRouter.Post("/sign-in", SignInHandler)
 
 	noAuthRouter.Get("/static/*", StaticHandler)
 }
