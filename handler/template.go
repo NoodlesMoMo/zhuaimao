@@ -6,6 +6,7 @@ import (
 	"html/template"
 	"path"
 	"path/filepath"
+	"strings"
 )
 
 var (
@@ -26,9 +27,26 @@ func init() {
 
 	includes, err := filepath.Glob(path.Join(templateBaseDir, "include/*.html"))
 
+	baseParts := make(map[string][]string)
+	for i := 0; i < len(bases); i++ {
+		base := bases[i]
+		seps := strings.SplitN(filepath.Base(base), "__", 2)
+		if len(seps) > 1 {
+			xb := seps[0]
+			baseParts[xb] = append(baseParts[xb], base)
+			bases = append(bases[:i], bases[i+1:]...)
+			i--
+		}
+	}
+
 	for _, base := range bases {
 		files := append(includes, base)
-		templates[filepath.Base(base)] = template.Must(template.ParseFiles(files...))
+		fb := filepath.Base(base)
+		fbx := strings.TrimRight(fb, filepath.Ext(fb))
+		if parts, ok := baseParts[fbx]; ok {
+			files = append(files, parts...)
+		}
+		templates[fb] = template.Must(template.ParseFiles(files...))
 	}
 }
 

@@ -12,6 +12,7 @@ func AuthMiddleHandler(ctx *routing.Context) error {
 	cookie := string(ctx.Request.Header.Cookie(service.IMECookieKey)[:])
 
 	id := models.InitSession(ctx).GetUserId(cookie)
+
 	fmt.Println(id)
 
 	return ctx.Next()
@@ -20,6 +21,7 @@ func AuthMiddleHandler(ctx *routing.Context) error {
 func SignInHandler(ctx *routing.Context) error {
 
 	username, password := ctx.FormValue("username"), ctx.FormValue("password")
+
 	if user, ok := service.CheckUser(username, password); ok {
 		service.SetCookie(ctx, user)
 		ctx.WriteString(`{"code": 0, "msg": "success", "url": "/"}`)

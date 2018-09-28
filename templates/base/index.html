@@ -7,9 +7,15 @@
     </head>
 
     <body class="hold-transition skin-blue sidebar-mini">
-    <div class="wrapper">
-        {{ template "navbar" }}
-        {{ template "sidebar" .}}
-    </div>
+        <div class="wrapper">
+
+            {{ template "navbar" }}
+
+            {{ template "sidebar" .}}
+
+            {{ template "dashboard" }}
+
+        </div>
     </body>
+
 </html>
