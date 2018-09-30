@@ -7,7 +7,9 @@ import (
 
 func UserHandler(ctx *routing.Context) error {
 
-	fmt.Println(string(ctx.RequestCtx.Method()))
+	id := ctx.Param("id")
+
+	fmt.Print("method:", string(ctx.RequestCtx.Method()), " id:", id)
 
 	RenderTemplate(ctx, `user.html`, nil)
 
