@@ -17,7 +17,7 @@ func init() {
 	authRouter := router.Group("")
 	authRouter.Use(AuthMiddleHandler)
 	authRouter.Get("/", IndexPageHandler)
-	authRouter.Any("/user/<id>", UserHandler)
+	authRouter.Any("/user/<type>/<id>", UserHandler)
 
 	noAuthRouter := router.Group("")
 	noAuthRouter.Get("/login", LoginPageHandler)

@@ -8,10 +8,13 @@ import (
 func UserHandler(ctx *routing.Context) error {
 
 	id := ctx.Param("id")
+	typ := ctx.Param("type")
+
+	if typ == "" || typ == "list" {
+		RenderTemplate(ctx, `user.html`, nil)
+	}
 
 	fmt.Print("method:", string(ctx.RequestCtx.Method()), " id:", id)
-
-	RenderTemplate(ctx, `user.html`, nil)
 
 	return nil
 }
