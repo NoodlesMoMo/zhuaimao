@@ -11,8 +11,8 @@ var (
 )
 
 func StaticHandler(ctx *routing.Context) error {
-	//ctx.Response.Header.SetLastModified()
 	ctx.Response.Header.Set("Cache-Control", "no-cache")
 	fsHandler(ctx.RequestCtx)
+
 	return nil
 }

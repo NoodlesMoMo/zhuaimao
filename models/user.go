@@ -13,13 +13,12 @@ func init() {
 type User struct {
 	gorm.Model
 
-	Name      string `gorm:"type:varchar(64);index:idx_name;not null;default:''"`
-	Password  string `gorm:"type:varchar(84);not null;default:''"`
-	Level     string `gorm:"type:varchar(64); not null; default:''"`
-	LevelName string `gorm:"type:varchar(64); not null; default:''"`
-	Avatar    string `gorm:"type:varchar(255)"`
-	Email     string `gorm:"type:varchar(255); not null; default:''"`
-	Token     string `gorm:"size:64"`
+	Name     string `gorm:"type:varchar(64);index:idx_name;not null;default:''"`
+	Password string `gorm:"type:varchar(84);not null;default:''"`
+	RoleID   uint   `gorm:"not null"`
+	Avatar   string `gorm:"type:varchar(255)"`
+	Email    string `gorm:"type:varchar(255); not null; default:''"`
+	Token    string `gorm:"size:64"`
 }
 
 func (u *User) TableName() string {
