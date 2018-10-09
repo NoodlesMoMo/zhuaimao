@@ -13,3 +13,7 @@ func IndexPageHandler(ctx *routing.Context) error {
 func LoginPageHandler(ctx *routing.Context) error {
 	return service.RenderTemplate(ctx, "login.html", nil)
 }
+
+func MenuPageHandler(ctx *routing.Context) error {
+	return service.RenderTemplate(ctx, "menu.html", nil)
+}

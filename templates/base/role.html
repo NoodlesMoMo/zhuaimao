@@ -31,13 +31,11 @@
 
             <section class="content">
                 <div class="row">
-                    <div class="col-xs-12">
+                    <div class="col-sm-6">
                         <div class="box">
-                            <div class="box-header with-border">
-                                <h3 class="box-title">Developers</h3>
-                                <button type="button" class="btn btn-info btn-sm" data-toggle="modal" data-target="#add-user">Add</button>
+                            <div class="box-header with-border" style="height:45px;">
                                 <div class="box-tools">
-                                    <div class="input-group input-group-sm" style="width: 150px;">
+                                    <div class="input-group input-group-sm" style="width:150px;">
                                         <input type="text" name="table_search" class="form-control pull-right" placeholder="Search">
 
                                         <div class="input-group-btn">
@@ -46,22 +44,18 @@
                                     </div>
                                 </div>
                             </div>
+
                             <div class="box-body">
-                                <!--<table class="table table-bordered" id="user_table"></table>-->
                                 <table data-toggle="table">
                                     <thead>
                                         <tr>
                                             <th>ID</th>
                                             <th>Name</th>
-                                            <th>Email</th>
-                                            <th>Role</th>
                                         </tr>
                                     </thead>
                                     <tbody>
                                         <tr>
                                             <td>1</td>
-                                            <td>3</td>
-                                            <td>5</td>
                                             <td>7</td>
                                         </tr>
                                     </tbody>
@@ -75,48 +69,90 @@
                                 </ul>
                             </div>
                         </div>
-
                     </div>
+
+
+                    <!-- New panel -->
+                    <div class="col-sm-6">
+                        <div class="box box-success">
+                            <div class="box-header with-border">
+                                <h3 class="box-title">New</h3>
+                                <div class="box-tools pull-right"></div>
+                            </div>
+
+                            <div class="box-body style=display:block;">
+                                <form class="form-horizontal" accept-charset="UTF-8">
+                                    <div class="box-body fields-group">
+
+                                        <div class="form-group">
+                                            <label for="parent_id" class="col-sm-2 control-label">Parent</label>
+                                            <div class="col-sm-8">
+                                                <select class="form-control parent_id select2-hidden-accessible" style="width: 100%;" name="parent_id" tabindex="-1" aria-hidden="true">
+                                                    <!-- TODO: add template here -->
+                                                    <option value=""></option>
+                                                </select>
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group">
+                                            <label for="title" class="col-sm-2 control-label">Title</label>
+                                            <div class="col-sm-8">
+                                                <div class="input-group">
+                                                    <span class="input-group-addon"><i class="fa fa-pencil fa-fw"></i></span>
+                                                    <input type="text" id="title" name="title" value="" class="form-control title">
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group">
+                                            <label for="icon" class="col-sm-2 control-label">Icon</label>
+                                            <div class="col-sm-8">
+                                                <div class="input-group iconpicker-container">
+                                                <span class="input-group-addon">
+                                                    <i class="fa fa-bars"></i>
+                                                </span>
+                                                    <input style="width:140px" type="text" id="icon" name="icon" value="fa-bars" class="form-control icon iconpicker-element iconpicker-input">
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group">
+                                            <label for="uri" class="col-sm-2 control-label">URI</label>
+                                            <div class="col-sm-8">
+                                                <div class="input-group">
+                                                    <span class="input-group-addon"><i class="fa fa-pencil"></i></span>
+                                                    <input type="text" id="uri" value="" class="form-control uri">
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group">
+                                            <label for="roles" class="col-sm-2 control-label">Roles</label>
+                                            <div class="col-sm-8">
+                                                <select class="form-control roles select2-hidden-accessible" style="width:100%;" tabindex="-1" aria-hidden="true">
+                                                    <!-- TODO: add template here -->
+                                                    <option value=""></option>
+                                                </select>
+                                            </div>
+                                        </div>
+
+                                    </div>
+
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- New Panel -->
+
+
                 </div>
+
             </section>
 
         </div>
     </div>
 
-    <div class="modal fade" id="add-user">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span></button>
-                    <h4 class="modal-title"></h4>
-                </div>
-                <div class="modal-body">
-                    <form class="form-horizontal" role="form">
-                        <div class="form-group">
-                            <label for="lastname" class="col-sm-2 control-label">Name</label>
-                            <div class="col-sm-10">
-                                <input type="text" class="form-control" name="user_name" value="" id="user_name">
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label for="lastname" class="col-sm-2 control-label">Email</label>
-                            <div class="col-sm-10">
-                                <input type="text" class="form-control" name="email" value="" id="email">
-                            </div>
-                        </div>
-                    </form>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-primary" data-dismiss="modal">Cancel</button>
-                    <button type="button" class="btn btn-primary" onclick="add_user()">Commit</button>
-                </div>
-            </div>
-        </div>
-    </div>
-
         <script src="/static/assets/dist/js/pages/user.js"></script>
     </body>
-
 
 </html>
