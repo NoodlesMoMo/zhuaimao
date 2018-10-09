@@ -3,26 +3,16 @@ package handler
 import (
 	"github.com/qiangxue/fasthttp-routing"
 	"github.com/valyala/fasthttp"
-	"os"
-	"path"
+	"zhuaimao/service"
 )
 
 var (
-	fsHandler = fasthttp.FSHandler(rootDir(), 0)
+	fsHandler = fasthttp.FSHandler(service.RootDir(), 0)
 )
 
 func StaticHandler(ctx *routing.Context) error {
+	//ctx.Response.Header.SetLastModified()
+	ctx.Response.Header.Set("Cache-Control", "no-cache")
 	fsHandler(ctx.RequestCtx)
 	return nil
-}
-
-func rootDir(sep ...string) string {
-	pwd, _ := os.Getwd()
-
-	pwds := []string{pwd}
-	for _, s := range sep {
-		pwds = append(pwds, s)
-	}
-
-	return path.Join(pwds...)
 }

@@ -1,9 +1,10 @@
-package handler
+package service
 
 import (
 	"fmt"
 	"github.com/qiangxue/fasthttp-routing"
 	"html/template"
+	"os"
 	"path"
 	"path/filepath"
 	"strings"
@@ -18,7 +19,7 @@ func init() {
 		templates = make(map[string]*template.Template)
 	}
 
-	templateBaseDir := rootDir("templates")
+	templateBaseDir := RootDir("templates")
 
 	bases, err := filepath.Glob(path.Join(templateBaseDir, "base/*.html"))
 	if err != nil {
@@ -58,4 +59,15 @@ func RenderTemplate(ctx *routing.Context, name string, data interface{}) error {
 	ctx.SetContentType("text/html; charset=utf-8")
 
 	return tpl.ExecuteTemplate(ctx.Response.BodyWriter(), name, data)
+}
+
+func RootDir(sep ...string) string {
+	pwd, _ := os.Getwd()
+
+	pwds := []string{pwd}
+	for _, s := range sep {
+		pwds = append(pwds, s)
+	}
+
+	return path.Join(pwds...)
 }

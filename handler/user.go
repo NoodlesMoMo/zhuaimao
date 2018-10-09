@@ -1,19 +1,28 @@
 package handler
 
 import (
-	"fmt"
 	"github.com/qiangxue/fasthttp-routing"
+	"zhuaimao/service"
 )
 
 func UserHandler(ctx *routing.Context) error {
 
-	var restful Restful
+	user := service.User{}
 
-	id := ctx.Param("id")
-
-	fmt.Print("method:", string(ctx.RequestCtx.Method()), " id:", id)
-
-	RenderTemplate(ctx, `user.html`, nil)
+	switch string(ctx.RequestCtx.Method()) {
+	case `GET`:
+		id := ctx.Param("id")
+		if id == "" {
+			user.List(ctx)
+		} else {
+			user.One(ctx)
+		}
+	case `PUT`:
+		user.Add(ctx)
+	case `POST`:
+	case `DELETE`:
+	}
+	user.One(ctx)
 
 	return nil
 }
