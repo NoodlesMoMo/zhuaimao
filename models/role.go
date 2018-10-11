@@ -1,6 +1,8 @@
 package models
 
-import "github.com/jinzhu/gorm"
+import (
+	"github.com/jinzhu/gorm"
+)
 
 func init() {
 	GetDBInstance().AutoMigrate(&Role{}, &RoleUserRelation{}, &RolePermissionRelation{})
@@ -10,11 +12,39 @@ type Role struct {
 	gorm.Model
 
 	Name string `gorm:"type:varchar(64);index:idx_name;not null;default:'';unique_index:idx_name"`
-	Slug string `gorm:"type:varchar(64); not null"`
 }
 
 func (r *Role) TableName() string {
 	return `role_t`
+}
+
+func (r *Role) Add(name string) (Role, error) {
+	result := Role{}
+
+	err := GetDBInstance().Table(r.TableName()).Create(&Role{Name: name}).Error
+	if err != nil {
+		return result, err
+	}
+
+	err = GetDBInstance().Where("name=?", name).First(&result).Error
+
+	return result, err
+}
+
+func (r *Role) List(page, psize int) ([]Role, error) {
+	result := make([]Role, 0)
+
+	if page > 0 {
+		page -= 1
+	}
+
+	if psize <= 0 {
+		psize = 10
+	}
+
+	err := GetDBInstance().Limit(psize).Offset(page * psize).Find(&result).Error
+
+	return result, err
 }
 
 type RoleUserRelation struct {

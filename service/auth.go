@@ -1,6 +1,7 @@
 package service
 
 import (
+	"encoding/json"
 	"github.com/qiangxue/fasthttp-routing"
 	"github.com/valyala/fasthttp"
 	"golang.org/x/crypto/bcrypt"
@@ -12,6 +13,12 @@ const (
 	IMECookieKey  = `ime_admin_session`
 	cookie_domain = `localhost`
 )
+
+type JsonResponse struct {
+	Code int         `json:"code"`
+	Msg  string      `json:"msg"`
+	Data interface{} `json:"data"`
+}
 
 func CheckUser(username, password []byte) (models.User, bool) {
 	ok := false
@@ -78,4 +85,22 @@ func DelScookie(ctx *routing.Context) {
 	cookie.SetExpire(time.Now())
 
 	ctx.Response.Header.SetCookie(cookie)
+}
+
+func ErrorResponse(ctx *routing.Context, code int, msg string) error {
+	resp := JsonResponse{Code: code, Msg: msg}
+	jsonResp, _ := json.Marshal(resp)
+
+	ctx.Write(jsonResp)
+
+	return nil
+}
+
+func SuccessResponse(ctx *routing.Context, data interface{}) error {
+	resp := JsonResponse{Data: data}
+	jsonResp, _ := json.Marshal(resp)
+
+	ctx.Write(jsonResp)
+
+	return nil
 }

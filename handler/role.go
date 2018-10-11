@@ -5,9 +5,18 @@ import (
 	"zhuaimao/service"
 )
 
+var (
+	roleSrv = service.RoleService{}
+)
+
 func RoleHandler(ctx *routing.Context) error {
 
-	service.RenderTemplate(ctx, "role.html", nil)
+	switch string(ctx.Request.Header.Method()) {
+	case `PUT`:
+		roleSrv.Add(ctx)
+	case `GET`:
+		roleSrv.Cat(ctx)
+	}
 
 	return nil
 }

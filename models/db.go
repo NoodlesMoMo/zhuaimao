@@ -23,7 +23,8 @@ var (
 		Net:                  "tcp4",
 		AllowNativePasswords: true,
 		Params: map[string]string{
-			"charset": "utf8",
+			"charset":   "utf8",
+			"parseTime": "true",
 		},
 	}
 )
