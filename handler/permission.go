@@ -5,9 +5,18 @@ import (
 	"zhuaimao/service"
 )
 
+var (
+	permSrv = service.PermissionService{}
+)
+
 func PermissionHandler(ctx *routing.Context) error {
 
-	service.RenderTemplate(ctx, "permission.html", nil)
+	switch string(ctx.Request.Header.Method()) {
+	case `GET`:
+		permSrv.Get(ctx)
+	case `PUT`:
+		permSrv.Add(ctx)
+	}
 
 	return nil
 }

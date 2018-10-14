@@ -46,7 +46,7 @@
                             </div>
 
                             <div class="box-body">
-                                <table data-toggle="table" id="role_table">
+                                <table data-toggle="table" id="role_table" class="text-center">
                                     <thead>
                                         <tr>
                                             <th>ID</th>
@@ -64,12 +64,17 @@
                                             <td>{{$record.Name}}</td>
                                             <td>{{$record.CreatedAt.Format "2006-01-02 15:04:05"}}</td>
                                             <td>{{$record.UpdatedAt.Format "2006-01-02 15:04:05"}}</td>
-                                            {{ if $record.DeletedAt }}
-                                                    <td>1</td>
-                                                    {{ else }}
-                                                    <td>0</td>
-                                            {{ end }}
-                                            <td>e</td>
+                                            <td>
+                                                {{ if $record.DeletedAt }}
+                                                    <span class="label label-danger">deleted</span>
+                                                {{else}}
+                                                    <span class="label label-success">ok</span>
+                                                {{end}}
+                                            </td>
+                                            <td>
+                                                <a href="#"><i class="fa fa-edit"></i></a>
+                                                <a href="javascript:void(0);"><i class="fa fa-trash"></i></a>
+                                            </td>
                                         </tr>
                                     {{ end }}
                                     </tbody>

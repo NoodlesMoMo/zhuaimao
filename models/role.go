@@ -1,6 +1,7 @@
 package models
 
 import (
+	"fmt"
 	"github.com/jinzhu/gorm"
 )
 
@@ -20,6 +21,12 @@ func (r *Role) TableName() string {
 
 func (r *Role) Add(name string) (Role, error) {
 	result := Role{}
+
+	cnt := 0
+	GetDBInstance().Table(r.TableName()).Where(`deleted_at is null`).Where(`name`, name).Count(&cnt)
+	if cnt > 0 {
+		return result, fmt.Errorf("%s has exist", name)
+	}
 
 	err := GetDBInstance().Table(r.TableName()).Create(&Role{Name: name}).Error
 	if err != nil {

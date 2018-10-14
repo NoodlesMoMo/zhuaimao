@@ -17,3 +17,7 @@ func LoginPageHandler(ctx *routing.Context) error {
 func MenuPageHandler(ctx *routing.Context) error {
 	return service.RenderTemplate(ctx, "menu.html", nil)
 }
+
+func PermAddPageHandler(ctx *routing.Context) error {
+	return service.RenderTemplate(ctx, "permission_add.html", nil)
+}
