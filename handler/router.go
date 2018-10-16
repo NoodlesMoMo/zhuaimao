@@ -17,8 +17,8 @@ func init() {
 	authRouter := router.Group("")
 	authRouter.Use(AuthMiddleHandler)
 	authRouter.Get("/", IndexPageHandler)
-	authRouter.Any("/user/<id>", UserHandler)
-	authRouter.Any("/role/", RoleHandler)
+	authRouter.Any("/user/<type>/<id>", UserHandler)
+	authRouter.Any("/role/<type>/<id>", RoleHandler)
 	authRouter.Any("/permission/", PermissionHandler)
 	authRouter.Any("/menu/", MenuPageHandler)
 

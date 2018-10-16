@@ -15,7 +15,7 @@ func RoleHandler(ctx *routing.Context) error {
 	case `PUT`:
 		roleSrv.Add(ctx)
 	case `GET`:
-		roleSrv.Cat(ctx)
+		roleSrv.Get(ctx)
 	}
 
 	return nil

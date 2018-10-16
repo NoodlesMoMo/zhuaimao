@@ -6,7 +6,7 @@ import (
 )
 
 func init() {
-	GetDBInstance().AutoMigrate(&Role{}, &RoleUserRelation{}, &RolePermissionRelation{})
+	GetDBInstance().AutoMigrate(&Role{}, &RoleGroupRelation{}, &RolePermissionRelation{})
 }
 
 type Role struct {
@@ -54,15 +54,23 @@ func (r *Role) List(page, psize int) ([]Role, error) {
 	return result, err
 }
 
-type RoleUserRelation struct {
-	gorm.Model
+func (r *Role) All() ([]Role, error) {
+	result := make([]Role, 0)
 
-	RoleID uint `gorm:"column:role_id; not null"`
-	UserID uint `gorm:"column:user_id; not null"`
+	err := GetDBInstance().Table(r.TableName()).Where("deleted_at is null").Find(&result).Error
+
+	return result, err
 }
 
-func (r *RoleUserRelation) TableName() string {
-	return `role_user_rel_t`
+type RoleGroupRelation struct {
+	gorm.Model
+
+	RoleID  uint `gorm:"column:role_id; not null"`
+	GroupID uint `gorm:"column:group_id; not null"`
+}
+
+func (r *RoleGroupRelation) TableName() string {
+	return `role_group_rel_t`
 }
 
 type RolePermissionRelation struct {

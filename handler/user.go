@@ -5,24 +5,22 @@ import (
 	"zhuaimao/service"
 )
 
+var (
+	userSrv = service.User{}
+)
+
 func UserHandler(ctx *routing.Context) error {
 
-	user := service.User{}
+	var err error
 
 	switch string(ctx.RequestCtx.Method()) {
 	case `GET`:
-		id := ctx.Param("id")
-		if id == "" {
-			user.List(ctx)
-		} else {
-			user.One(ctx)
-		}
+		err = userSrv.Get(ctx)
 	case `PUT`:
-		user.Add(ctx)
+		err = userSrv.Add(ctx)
 	case `POST`:
 	case `DELETE`:
 	}
-	user.One(ctx)
 
-	return nil
+	return err
 }

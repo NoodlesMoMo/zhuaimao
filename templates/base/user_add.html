@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+{{ template "header" }}
+
+    <script src="/static/assets/bower_components/bootstrap-table/dist/bootstrap-table.min.js"></script>
+    <script src="/static/assets/bower_components/bootstrap-table/dist/bootstrap-table-locale-all.min.js"></script>
+
+    <link rel="stylesheet" href="/static/assets/bower_components/bootstrap-table/dist/bootstrap-table.min.css"/>
+
+</head>
+
+<body class="hold-transition skin-blue sidebar-mini">
+<div class="wrapper">
+
+{{ template "navbar" }}
+
+{{ template "sidebar" .}}
+
+    <div class="content-wrapper">
+
+        <section class="content-header">
+            {{ if eq . "user" }}
+                <h1>User add</h1>
+            {{ else if eq . "group" }}
+                <h1>Group add</h1>
+            {{ end }}
+            <ol class="breadcrumb">
+                <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
+                {{ if eq . "user "}}
+                    <li class="active">User add</li>
+                {{ else if eq . "group" }}
+                    <li class="active">Group add</li>
+                {{ end }}
+            </ol>
+        </section>
+
+        <section class="content">
+            <div class="row">
+                <div class="col-sm-2"></div>
+                <div class="col-sm-8">
+                    <div class="box with-border">
+                        <div class="box-header with-border" style="height:45px;">
+                            <div class="box-tools">
+                                <div class="pull-right" style="margin:10px;">
+                                    <a class="form-history-back" href="/user/list/"><i class="fa fa-reply"></i></a>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="box-body fields-group">
+
+                            <form class="form-horizontal">
+
+                                <div class="form-group">
+                                    <label for="name" class="col-sm-2 control-label">Name</label>
+                                    <div class="col-sm-8">
+                                        <div class="input-group">
+                                            <span class="input-group-addon"><i class="fa fa-user-circle"></i></span>
+                                            <input type="text" id="name" name="name" value="" class="form-control title">
+                                        </div>
+                                    </div>
+                                </div>
+
+                                {{ if eq . "group" }}
+
+                                    <div class="form-group">
+                                        <label for="roles" class="col-sm-2 control-label">Roles</label>
+                                        <div class="col-sm-8">
+                                            <div class="input-group">
+                                                <span class="input-group-addon"><i class="fa fa-user-circle"></i></span>
+                                                <select id="roles" class="form-control" name="roles[]" multiple="multiple"></select>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                {{ end }}
+
+                                {{ if eq . "user" }}
+
+                                    <div class="form-group">
+                                        <label for="perm_slug" class="col-sm-2 control-label">Slug</label>
+                                        <div class="col-sm-3">
+                                            <div class="input-group">
+                                                <span class="input-group-addon"><i class="fa fa-bookmark"></i></span>
+                                                <input type="text" id="perm_slug" name="slug" value="" class="form-control title">
+                                            </div>
+                                        </div>
+
+                                        <label for="perm_methods" class="col-sm-2 control-label">Methods</label>
+                                        <div class="col-sm-3">
+                                            <select id="perm_methods" class="form-control" name="methods[]" multiple="multiple">
+                                                <option value="GET">GET</option>
+                                                <option value="PUT">PUT</option>
+                                                <option value="POST">POST</option>
+                                                <option value="DELETE">DELETE</option>
+                                                <option value="*">ALL</option>
+                                            </select>
+                                        </div>
+
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label for="perm_path" class="col-sm-2 control-label">Path</label>
+                                        <div class="col-sm-8">
+                                            <div class="input-group">
+                                                <span class="input-group-addon"><i class="fa fa-file-code-o"></i></span>
+                                                <input type="text" id="perm_path" name="path" value="" class="form-control title">
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                {{ end }}
+
+                            </form>
+
+                        </div>
+
+                        <div class="box-footer clearfix">
+                            <div class="col-md-2"></div>
+                            <div class="col-md-8">
+                                <div class="btn-group pull-left">
+                                    <button type="reset" class="btn btn-warning pull-right">Reset</button>
+                                </div>
+
+                                <div class="btn-group pull-right">
+                                    {{ if eq . "group" }}
+                                        <button class="btn btn-primary pull-right" onclick="add_group()">Add</button>
+                                    {{ else if eq . "user" }}
+                                        <button class="btn btn-primary pull-right" onclick="add_user()">Add</button>
+                                    {{ end }}
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+
+            </div>
+
+        </section>
+    </div>
+</div>
+
+    <script src="/static/assets/dist/js/pages/user.js"></script>
+</body>
+
+</html>

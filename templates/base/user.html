@@ -22,7 +22,7 @@
         <div class="content-wrapper">
 
             <section class="content-header">
-                <h1>Team users</h1>
+                <h1>Group users <a href="/user/group_add/"><i class="glyphicon glyphicon-plus"></i></a></h1>
                 <ol class="breadcrumb">
                     <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
                     <li class="active">user</li>
@@ -31,13 +31,11 @@
 
             <section class="content">
                 <div class="row">
-                    <div class="col-xs-12">
+                    <div class="col-sm-12">
                         <div class="box">
-                            <div class="box-header with-border">
-                                <h3 class="box-title">Developers</h3>
-                                <button type="button" class="btn btn-info btn-sm" data-toggle="modal" data-target="#add-user">Add</button>
+                            <div class="box-header with-border" style="height:45px;">
                                 <div class="box-tools">
-                                    <div class="input-group input-group-sm" style="width: 150px;">
+                                    <div class="input-group input-group-sm" style="width:150px;">
                                         <input type="text" name="table_search" class="form-control pull-right" placeholder="Search">
 
                                         <div class="input-group-btn">
@@ -46,27 +44,49 @@
                                     </div>
                                 </div>
                             </div>
+
                             <div class="box-body">
-                                <!--<table class="table table-bordered" id="user_table"></table>-->
-                                <table data-toggle="table">
+                                <table data-toggle="table" id="perm_table" class="text-center">
                                     <thead>
-                                        <tr>
-                                            <th>ID</th>
-                                            <th>Name</th>
-                                            <th>Email</th>
-                                            <th>Role</th>
-                                        </tr>
+                                    <tr>
+                                        <th>ID</th>
+                                        <th>Name</th>
+                                        <th>Role</th>
+                                        <th>Avatar</th>
+                                        <th>Email</th>
+                                        <th>Create Time</th>
+                                        <th>Update TIme</th>
+                                        <th>Status</th>
+                                        <th>Operate</th>
+                                    </tr>
                                     </thead>
                                     <tbody>
-                                        <tr>
-                                            <td>1</td>
-                                            <td>3</td>
-                                            <td>5</td>
-                                            <td>7</td>
-                                        </tr>
+                                    {{ range $record := . }}
+                                    <tr>
+                                        <td>{{$record.ID}}</td>
+                                        <td>{{$record.Name}}</td>
+                                        <td>{{$record.Role}}</td>
+                                        <td>{{$record.Avatar}}</td>
+                                        <td>{{$record.Email}}</td>
+                                        <td>{{$record.CreatedAt.Format "2006-01-02 15:04:05"}}</td>
+                                        <td>{{$record.UpdatedAt.Format "2006-01-02 15:04:05"}}</td>
+                                        <td>
+                                        {{ if $record.DeletedAt }}
+                                            <span class="label label-danger">deleted</span>
+                                        {{else}}
+                                            <span class="label label-success">ok</span>
+                                        {{end}}
+                                        </td>
+                                        <td>
+                                            <a href="#"><i class="fa fa-edit"></i></a>
+                                            <a href="javascript:void(0);"><i class="fa fa-trash"></i></a>
+                                        </td>
+                                    </tr>
+                                    {{ end }}
                                     </tbody>
                                 </table>
                             </div>
+
                             <div class="box-footer clearfix">
                                 <ul class="pagination pagination-sm no-margin pull-right">
                                     <li><a href="#">&laquo;</a></li>
@@ -74,46 +94,18 @@
                                     <li><a href="#">&raquo;</a></li>
                                 </ul>
                             </div>
-                        </div>
 
+                        </div>
                     </div>
+
                 </div>
+
             </section>
 
+
         </div>
     </div>
 
-    <div class="modal fade" id="add-user">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span></button>
-                    <h4 class="modal-title"></h4>
-                </div>
-                <div class="modal-body">
-                    <form class="form-horizontal" role="form">
-                        <div class="form-group">
-                            <label for="lastname" class="col-sm-2 control-label">Name</label>
-                            <div class="col-sm-10">
-                                <input type="text" class="form-control" name="user_name" value="" id="user_name">
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label for="lastname" class="col-sm-2 control-label">Email</label>
-                            <div class="col-sm-10">
-                                <input type="text" class="form-control" name="email" value="" id="email">
-                            </div>
-                        </div>
-                    </form>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-primary" data-dismiss="modal">Cancel</button>
-                    <button type="button" class="btn btn-primary" onclick="add_user()">Commit</button>
-                </div>
-            </div>
-        </div>
-    </div>
 
         <script src="/static/assets/dist/js/pages/user.js"></script>
     </body>

@@ -2,7 +2,6 @@ package service
 
 import (
 	"encoding/json"
-	"fmt"
 	"github.com/qiangxue/fasthttp-routing"
 	"strconv"
 	"zhuaimao/models"
@@ -36,7 +35,20 @@ func (r *RoleService) Add(ctx *routing.Context) error {
 	return nil
 }
 
-func (r *RoleService) Cat(ctx *routing.Context) error {
+func (r *RoleService) Get(ctx *routing.Context) error {
+	tye := ctx.Param("type")
+
+	switch tye {
+	case `list`:
+		return r.list(ctx)
+	case `all`:
+		return r.all(ctx)
+	}
+
+	return nil
+}
+
+func (r *RoleService) list(ctx *routing.Context) error {
 
 	model := models.Role{}
 
@@ -51,7 +63,17 @@ func (r *RoleService) Cat(ctx *routing.Context) error {
 		return err
 	}
 
-	fmt.Println(result)
-
 	return RenderTemplate(ctx, "role.html", result)
+}
+
+func (r *RoleService) all(ctx *routing.Context) error {
+
+	model := models.Role{}
+
+	roles, err := model.All()
+	if err != nil {
+		return ErrorResponse(ctx, -1, err.Error())
+	}
+
+	return SuccessResponse(ctx, roles)
 }
